@@ -259,22 +259,94 @@
   @keyframes fadeInLeft { from { opacity:0; transform:translateX(-30px); } to { opacity:1; transform:translateX(0); } }
   @keyframes fadeInRight { from { opacity:0; transform:translateX(30px); } to { opacity:1; transform:translateX(0); } }
 
-  @media (max-width: 900px) {
+/* hamburger menu */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 4px;
+    background: none;
+    border: none;
+  }
+  .hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--ink);
+    transition: all 0.3s;
+  }
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  @media (max-width: 768px) {
+    /* NAV */
     nav { padding: 1rem 1.5rem; }
-    .nav-links { gap: 1.2rem; }
-    .nav-links a { font-size: 0.75rem; }
-    .hero { grid-template-columns: 1fr; }
-    .hero-left { padding: 7rem 3rem 3rem; }
+    .hamburger { display: flex; }
+    .nav-links {
+      display: none;
+      position: fixed;
+      top: 57px; left: 0; right: 0;
+      background: rgba(247,242,232,0.98);
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(139,26,26,0.15);
+      backdrop-filter: blur(8px);
+    }
+    .nav-links.open { display: flex; }
+    .nav-links li { width: 100%; text-align: center; }
+    .nav-links a { display: block; padding: 0.9rem 2rem; font-size: 0.9rem; }
+
+    /* HERO */
+    .hero { grid-template-columns: 1fr; min-height: auto; }
+    .hero-left { padding: 5rem 2rem 2.5rem; min-height: 40vh; justify-content: center; }
     .hero-left::after { display: none; }
-    .hero-right { padding: 3rem 2rem 5rem; }
-    .kanji-large { font-size: 6rem; }
-    .instructor-grid { grid-template-columns: 1fr; gap: 3rem; }
-    .location-grid, .contact-layout { grid-template-columns: 1fr; gap: 3rem; }
+    .kanji-large { font-size: 5rem; }
+    .kanji-sub { font-size: 0.75rem; letter-spacing: 0.2em; }
+    .hero-right { padding: 2.5rem 1.5rem 4rem; }
+    .hero-title { font-size: 2rem; }
+    .hero-desc { font-size: 0.88rem; }
+    .hero-features li { font-size: 0.85rem; }
+    .btn-primary, .btn-outline {
+      display: block;
+      text-align: center;
+      margin: 0 0 0.8rem 0;
+      width: 100%;
+    }
+
+    /* COMMON */
+    section { padding: 4rem 0; }
+    .section-title { font-size: 1.8rem; }
+    .container { padding: 0 1.2rem; }
+
+    /* INSTRUCTOR */
+    .instructor-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .instructor-emblem { width: 200px; height: 200px; }
+    .instructor-text .intro { font-size: 0.88rem; }
+
+    /* LOCATIONS */
+    .tab-btn { padding: 0.8rem 1.5rem; font-size: 0.95rem; }
+    .location-grid { grid-template-columns: 1fr; gap: 2.5rem; }
     .courses-grid { grid-template-columns: 1fr; }
-    .reviews-grid { grid-template-columns: 1fr; }
+    .course-card { padding: 1.5rem; }
+    .schedule-table th, .schedule-table td { padding: 0.6rem 0.5rem; font-size: 0.8rem; }
+
+    /* REVIEWS */
+    .reviews-grid { grid-template-columns: 1fr; gap: 1.2rem; }
+    .review-card { padding: 1.5rem; }
+
+    /* INSTAGRAM */
+    .insta-header { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+
+    /* CONTACT */
+    .contact-layout { grid-template-columns: 1fr; gap: 2.5rem; }
     .form-row { grid-template-columns: 1fr; }
-    .container { padding: 0 1.5rem; }
-    footer { flex-direction: column; gap: 0.8rem; text-align: center; padding: 2rem; }
+
+    /* FOOTER */
+    footer { flex-direction: column; gap: 0.8rem; text-align: center; padding: 2rem 1.5rem; }
   }
 </style>
 </head>
@@ -288,6 +360,10 @@
     <li><a href="#reviews">生徒様の声</a></li>
     <li><a href="#contact">お問い合わせ</a></li>
   </ul>
+  <button class="hamburger" id="hamburger" aria-label="メニュー">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
 </nav>
 
 <!-- HERO -->
@@ -674,6 +750,18 @@ document.getElementById('contactForm').addEventListener('submit', async function
   };
   document.body.appendChild(script);
 })();
+
+// Hamburger menu toggle
+document.getElementById('hamburger').addEventListener('click', function() {
+  this.classList.toggle('open');
+  document.querySelector('.nav-links').classList.toggle('open');
+});
+document.querySelectorAll('.nav-links a').forEach(function(a) {
+  a.addEventListener('click', function() {
+    document.getElementById('hamburger').classList.remove('open');
+    document.querySelector('.nav-links').classList.remove('open');
+  });
+});
 </script>
 
 </body>
